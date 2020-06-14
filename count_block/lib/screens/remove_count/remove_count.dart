@@ -1,7 +1,6 @@
-import 'package:countmobx/mobx/counter.dart';
+import 'package:countblock/bloc/app_bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class RemoveCount extends StatefulWidget {
   @override
@@ -11,7 +10,7 @@ class RemoveCount extends StatefulWidget {
 class _RemoveCountState extends State<RemoveCount> {
   @override
   Widget build(BuildContext context) {
-    Counter counter = Provider.of<Counter>(context);
+    final AppBloc counterBloc = BlocProvider.of<AppBloc>(context);
     return Scaffold(
       appBar: AppBar(
         title: Text("Count Remove"),
@@ -21,16 +20,18 @@ class _RemoveCountState extends State<RemoveCount> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Observer(
-                builder: (_) => Text(
-                  '${counter.value}',
-                  style: TextStyle(fontSize: 50),
-                ),
+              BlocBuilder<AppBloc, int>(
+                builder: (context, count) {
+                  return Text(
+                    '${count}',
+                    style: TextStyle(fontSize: 50),
+                  );
+                },
               ),
               RaisedButton(
                 child: Text('-'),
                 onPressed: () {
-                  counter.decrement();
+                  counterBloc.add(BlocEvent.decrement);
                 },
               ),
               RaisedButton(
