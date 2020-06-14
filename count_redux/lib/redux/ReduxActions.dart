@@ -1,0 +1,1 @@
+enum ReduxActions { Increment, Decrement }
